@@ -89,19 +89,47 @@
         stroke-linejoin: round;
       }
 
-      textarea {
+      .code-shell {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #d2d2d2;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+
+      .line-numbers {
+        margin: 0;
+        width: 52px;
+        flex: 0 0 52px;
+        padding: 48px 8px 12px;
+        box-sizing: border-box;
+        border-right: 1px solid #e7e7e7;
+        background: #f8f8f8;
+        color: #888888;
+        text-align: right;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 11px;
+        line-height: 1.4;
+        overflow: hidden;
+        user-select: none;
+        white-space: pre;
+      }
+
+      .code-area {
         width: 100%;
         height: 100%;
         resize: none;
-        border: 1px solid #d2d2d2;
-        border-radius: 8px;
+        border: 0;
         padding: 48px 12px 12px;
         box-sizing: border-box;
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
         font-size: 11px;
         line-height: 1.4;
-        background: #ffffff;
+        background: transparent;
         color: #101010;
+        outline: 0;
       }
 
       .split-view {
@@ -140,7 +168,7 @@
 
       .split-card {
         position: relative;
-        min-height: 200px;
+        height: 320px;
       }
 
       .card-title {
@@ -156,15 +184,38 @@
         padding: 2px 6px;
       }
 
-      .split-card textarea {
-        height: 220px;
+      .split-card .code-shell {
+        height: 100%;
+      }
+
+      .split-card .line-numbers {
         padding-top: 42px;
+      }
+
+      .split-card .code-area {
+        height: 100%;
+        padding-top: 42px;
+      }
+
+      .footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
       }
 
       #status {
         margin: 0;
         font-size: 11px;
         color: #666666;
+      }
+
+      #stats {
+        margin: 0;
+        font-size: 11px;
+        color: #666666;
+        text-align: right;
       }
     </style>
   </head>
@@ -203,7 +254,10 @@
           </svg>
         </button>
       </div>
-      <textarea id="json-output" spellcheck="false" readonly></textarea>
+      <div class="code-shell">
+        <pre id="single-lines" class="line-numbers">1</pre>
+        <textarea id="json-output" class="code-area" spellcheck="false" readonly></textarea>
+      </div>
     </div>
 
     <div id="split-view" class="split-view hidden">
@@ -214,11 +268,16 @@
       <div id="split-list" class="split-list"></div>
     </div>
 
-    <p id="status">Gerando tokens...</p>
+    <div class="footer">
+      <p id="status">Gerando tokens...</p>
+      <p id="stats">Tokens: 0 | Linhas: 0 | Tamanho: 0 B</p>
+    </div>
 
     <script>
       const output = document.getElementById("json-output");
+      const singleLines = document.getElementById("single-lines");
       const status = document.getElementById("status");
+      const stats = document.getElementById("stats");
       const includeRootInput = document.getElementById("include-root");
       const splitFilesInput = document.getElementById("split-files");
       const singleView = document.getElementById("single-view");
@@ -229,6 +288,92 @@
 
       function setStatus(message) {
         status.textContent = message;
+      }
+
+      function setStats(message) {
+        stats.textContent = message;
+      }
+
+      function lineCount(text) {
+        if (!text) return 1;
+        return text.split("\n").length;
+      }
+
+      function buildLineNumbers(totalLines) {
+        const lines = [];
+        for (let i = 1; i <= totalLines; i += 1) {
+          lines.push(String(i));
+        }
+        return lines.join("\n");
+      }
+
+      function updateLineNumbers(lineNode, text) {
+        lineNode.textContent = buildLineNumbers(lineCount(text));
+      }
+
+      function syncLineNumbersScroll(textareaNode, lineNode) {
+        textareaNode.addEventListener("scroll", () => {
+          lineNode.scrollTop = textareaNode.scrollTop;
+        });
+      }
+
+      function jsonTokenCount(jsonText) {
+        try {
+          const parsed = JSON.parse(jsonText);
+          let total = 0;
+          const stack = [parsed];
+
+          while (stack.length > 0) {
+            const current = stack.pop();
+            if (!current || typeof current !== "object") continue;
+
+            if (!Array.isArray(current)) {
+              if (Object.prototype.hasOwnProperty.call(current, "$value")) {
+                total += 1;
+              }
+              Object.keys(current).forEach((key) => {
+                stack.push(current[key]);
+              });
+            } else {
+              current.forEach((item) => stack.push(item));
+            }
+          }
+
+          return total;
+        } catch (_error) {
+          return 0;
+        }
+      }
+
+      function bytesOfText(text) {
+        return new TextEncoder().encode(text).length;
+      }
+
+      function formatBytes(bytes) {
+        if (bytes < 1024) return `${bytes} B`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+      }
+
+      function updateStatsForSingle(jsonText) {
+        const tokens = jsonTokenCount(jsonText);
+        const lines = lineCount(jsonText);
+        const size = formatBytes(bytesOfText(jsonText));
+        setStats(`Tokens: ${tokens} | Linhas: ${lines} | Tamanho: ${size}`);
+      }
+
+      function updateStatsForSplit(files) {
+        let tokens = 0;
+        let lines = 0;
+        let bytes = 0;
+
+        files.forEach((file) => {
+          tokens += jsonTokenCount(file.json);
+          lines += lineCount(file.json);
+          bytes += bytesOfText(file.json);
+        });
+
+        setStats(`Tokens: ${tokens} | Linhas: ${lines} | Tamanho: ${formatBytes(bytes)}`);
       }
 
       function triggerDownload(json, filename) {
@@ -440,7 +585,7 @@
 
         files.forEach((file) => {
           const card = document.createElement("div");
-          card.className = "editor split-card";
+          card.className = "split-card";
 
           const title = document.createElement("div");
           title.className = "card-title";
@@ -470,14 +615,25 @@
           actions.appendChild(copyBtn);
           actions.appendChild(downloadBtn);
 
+          const shell = document.createElement("div");
+          shell.className = "code-shell";
+
+          const lines = document.createElement("pre");
+          lines.className = "line-numbers";
+
           const textarea = document.createElement("textarea");
+          textarea.className = "code-area";
           textarea.readOnly = true;
           textarea.spellcheck = false;
           textarea.value = file.json;
+          updateLineNumbers(lines, textarea.value);
+          syncLineNumbersScroll(textarea, lines);
 
           card.appendChild(title);
           card.appendChild(actions);
-          card.appendChild(textarea);
+          shell.appendChild(lines);
+          shell.appendChild(textarea);
+          card.appendChild(shell);
           splitList.appendChild(card);
         });
       }
@@ -526,6 +682,8 @@
 
           if (lastPayload.mode === "single") {
             output.value = lastPayload.file.json || "";
+            updateLineNumbers(singleLines, output.value);
+            updateStatsForSingle(output.value);
             updateViewMode();
             setStatus("Tokens gerados com sucesso.");
             return;
@@ -533,6 +691,7 @@
 
           if (lastPayload.mode === "split") {
             renderSplit(lastPayload.files || []);
+            updateStatsForSplit(lastPayload.files || []);
             updateViewMode();
             setStatus(`Tokens gerados com sucesso em ${lastPayload.files.length} arquivos.`);
             return;
@@ -541,10 +700,12 @@
 
         if (message.type === "tokens-error") {
           setStatus("Erro ao gerar tokens: " + (message.error || "desconhecido"));
+          setStats("Tokens: 0 | Linhas: 0 | Tamanho: 0 B");
           return;
         }
       };
 
+      syncLineNumbersScroll(output, singleLines);
       updateViewMode();
     </script>
   </body>
