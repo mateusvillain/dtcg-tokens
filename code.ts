@@ -9,6 +9,13 @@ interface DtcgTree {
   [key: string]: DtcgTree | DtcgToken;
 }
 
+type PluginLanguage = "en" | "pt";
+
+type PluginSettings = {
+  language: PluginLanguage;
+  singleFileName: string;
+};
+
 type UiMessage =
   | {
       type: "refresh-tokens";
@@ -16,6 +23,13 @@ type UiMessage =
         includeCollectionOrCategoryRoot?: boolean;
         splitByCollectionOrCategory?: boolean;
         enabledGroups?: string[];
+      };
+    }
+  | {
+      type: "update-settings";
+      settings?: {
+        language?: PluginLanguage;
+        singleFileName?: string;
       };
     }
   | { type: "close-plugin" };
@@ -32,12 +46,14 @@ type GeneratedPayload =
       file: TokenFile;
       availableGroups: string[];
       selectedGroups: string[];
+      settings: PluginSettings;
     }
   | {
       mode: "split";
       files: TokenFile[];
       availableGroups: string[];
       selectedGroups: string[];
+      settings: PluginSettings;
     };
 
 const DTCG_SCHEMA_URL =
@@ -52,6 +68,14 @@ figma.showUI(__html__, {
 let includeCollectionOrCategoryRoot = true;
 let splitByCollectionOrCategory = false;
 let enabledGroups: string[] | null = null;
+let language: PluginLanguage = "en";
+let singleFileName = "tokens.json";
+
+function normalizeSingleFileName(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "tokens.json";
+  return trimmed.endsWith(".json") ? trimmed : `${trimmed}.json`;
+}
 
 function normalizeNameSegment(segment: string): string {
   const normalized = segment.trim().replace(/\s+/g, "-");
@@ -574,6 +598,10 @@ async function generateTokens(): Promise<GeneratedPayload> {
       files,
       availableGroups,
       selectedGroups,
+      settings: {
+        language,
+        singleFileName,
+      },
     };
   }
 
@@ -586,11 +614,15 @@ async function generateTokens(): Promise<GeneratedPayload> {
     mode: "single",
     file: {
       name: "tokens",
-      filename: "tokens.json",
+      filename: singleFileName,
       json: JSON.stringify(createDtcgPayload(mergedTokens, generatedAt), null, 2),
     },
     availableGroups,
     selectedGroups,
+    settings: {
+      language,
+      singleFileName,
+    },
   };
 }
 
@@ -618,6 +650,20 @@ figma.ui.onmessage = async (msg: UiMessage) => {
     if (msg.options && "enabledGroups" in msg.options) {
       enabledGroups = msg.options.enabledGroups ?? null;
     }
+    await sendTokensToUi();
+    return;
+  }
+
+  if (msg.type === "update-settings") {
+    const nextLanguage = msg.settings?.language;
+    if (nextLanguage === "en" || nextLanguage === "pt") {
+      language = nextLanguage;
+    }
+
+    if (typeof msg.settings?.singleFileName === "string") {
+      singleFileName = normalizeSingleFileName(msg.settings.singleFileName);
+    }
+
     await sendTokensToUi();
     return;
   }

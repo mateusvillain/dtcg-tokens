@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,6 +18,10 @@
         box-sizing: border-box;
       }
 
+      p {
+        margin: 0;
+      }
+
       html,
       body {
         height: 100%;
@@ -27,13 +31,19 @@
         margin: 0;
         background: var(--white);
         color: var(--black);
-        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
         font-size: 11px;
         overflow: hidden;
       }
 
       .app {
         display: flex;
+        flex-direction: column;
         height: 100%;
         width: 100%;
       }
@@ -46,30 +56,29 @@
       }
 
       .section {
-        padding: 8px;
+        padding: 16px;
+      }
+
+      h2 {
+        font-size: 11px;
+        font-weight: 500;
+        margin: 0 0 4px 0;
       }
 
       .section + .section {
         border-top: 1px solid var(--gray);
       }
 
-      .section-title {
-        line-height: 16px;
-        letter-spacing: 0.1px;
-        margin: 8px;
-      }
-
       .toggle-row {
         display: flex;
         align-items: center;
-        min-height: 32px;
       }
 
       .toggle {
         position: relative;
         width: 40px;
         height: 32px;
-        flex: 0 0 40px;
+        flex: 0 0 28px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -135,27 +144,6 @@
         font-size: 11px;
         letter-spacing: 0.055px;
         cursor: pointer;
-      }
-
-      .sidebar-footer {
-        margin-top: auto;
-        padding: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 11px;
-        line-height: 16px;
-        letter-spacing: 0.144px;
-        color: var(--black-80);
-      }
-
-      .sidebar-footer a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .sidebar-footer a:hover {
-        text-decoration: underline;
       }
 
       .main {
@@ -244,7 +232,9 @@
         margin: 0;
         padding: 8px 8px 40px;
         text-align: right;
-        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+          monospace;
         font-size: 11px;
         line-height: 16px;
         letter-spacing: 0.05px;
@@ -264,7 +254,9 @@
         background: var(--white);
         color: var(--black-80);
         padding: 8px 12px 40px 0;
-        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+          monospace;
         font-size: 11px;
         line-height: 16px;
         letter-spacing: 0.05px;
@@ -289,10 +281,6 @@
         letter-spacing: 0.144px;
         color: var(--black-80);
         white-space: nowrap;
-      }
-
-      .single-container .panel {
-        height: 100%;
       }
 
       .split-main {
@@ -321,97 +309,355 @@
         height: calc(100% - 28px);
       }
 
-      .status-note {
-        display: none;
+      .top-menu {
+        border-bottom: 1px solid var(--gray);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 12px 16px 12px 10px;
       }
+
+      .menu-tab {
+        border: 0;
+        border-radius: 4px;
+        padding: 4px 6px;
+        background: var(--white);
+        color: #707070;
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .menu-tab.active {
+        background: #e9e9e9;
+        color: #111;
+        font-weight: 600;
+      }
+
+      .page {
+        display: none;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .page.page-tokens.active {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .tokens-layout {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+      }
+
+      .page.page-settings.active {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .settings-content {
+        padding: 16px;
+      }
+
+      .form-inline {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .form-inline p {
+        flex: 1;
+      }
+
+      .form-language {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+      }
+
+      .form-inline input,
+      .form-inline select {
+        width: 200px;
+      }
+
+      .field-help {
+        margin-top: 4px;
+        font-size: 11px;
+        color: #2f2f2f;
+      }
+
+      .suffix-field {
+        height: 32px;
+        width: 200px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+      }
+
+      .suffix-field input {
+        border: 0;
+        outline: 0;
+        flex: 1;
+        font-size: 11px;
+      }
+
+      .suffix-field span {
+        color: #a0a0a0;
+        font-size: 11px;
+      }
+
+      .field-select {
+        height: 32px;
+        width: 200px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0 12px;
+        font-size: 11px;
+        background: var(--white);
+      }
+
+      .footer {
+        border-top: 1px solid var(--gray);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        font-size: 11px;
+        color: #2f2f2f;
+      }
+
+      .footer-links {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .footer-links a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
     </style>
   </head>
   <body>
     <div class="app">
-      <aside class="sidebar">
-        <div class="section">
-          <div class="section-title">General</div>
+      <div class="top-menu">
+        <button id="tab-tokens" class="menu-tab active" type="button">
+          Tokens
+        </button>
+        <button id="tab-settings" class="menu-tab" type="button">
+          Settings
+        </button>
+      </div>
 
-          <div class="toggle-row">
-            <label class="toggle" for="include-root">
-              <input id="include-root" type="checkbox" checked />
-              <span class="toggle-ui"></span>
-            </label>
-            <label class="toggle-label" for="include-root">Include collection</label>
-          </div>
+      <div id="page-tokens" class="page page-tokens active">
+        <div class="tokens-layout">
+          <aside class="sidebar">
+            <div class="section">
+              <h2 id="general-title">General</h2>
 
-          <div class="toggle-row">
-            <label class="toggle" for="split-files">
-              <input id="split-files" type="checkbox" />
-              <span class="toggle-ui"></span>
-            </label>
-            <label class="toggle-label" for="split-files">Separate tokens</label>
-          </div>
-        </div>
+              <div class="toggle-row">
+                <label class="toggle" for="include-root">
+                  <input id="include-root" type="checkbox" checked />
+                  <span class="toggle-ui"></span>
+                </label>
+                <label
+                  id="include-root-label"
+                  class="toggle-label"
+                  for="include-root"
+                  >Include collection</label
+                >
+              </div>
 
-        <div class="section">
-          <div class="section-title">Collections</div>
-          <div id="groups-list"></div>
-        </div>
-
-        <div class="download-area">
-          <button id="sidebar-download" class="btn" type="button">Download file</button>
-        </div>
-
-        <div class="sidebar-footer">
-          <a id="github-link" href="https://github.com/mateusvillain/dtcg-tokens" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <span>v1.0.0</span>
-        </div>
-      </aside>
-
-      <main class="main">
-        <div id="single-main" class="single-main">
-          <div class="single-container panel">
-            <div class="panel-header">
-              <p class="panel-title">tokens</p>
-              <div class="actions">
-                <button id="single-refresh" class="icon-btn" type="button" title="Refresh" aria-label="Refresh">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path fill="#000" d="m10.607 7.375-1.02 1.02h2.415v.002a4.427 4.427 0 1 1-4.427 4.427h.75a3.677 3.677 0 1 0 3.677-3.677v-.002H9.587l1.02 1.02-.53.53-1.66-1.66-.266-.265 1.925-1.925.53.53Z"/>
-                  </svg>
-                </button>
-                <button id="single-download" class="icon-btn" type="button" title="Download" aria-label="Download">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path fill="#000" d="M8.318 15.53v1.5h7.364v-1.5h.818v2.25h-9v-2.25h.818Zm4.057-2.14 2.37-2.2.51.55-3 2.785-.255.237-.255-.237-3-2.786.51-.55 2.37 2.201V6h.75v7.39Z"/>
-                  </svg>
-                </button>
-                <button id="single-copy" class="icon-btn primary" type="button" title="Copy" aria-label="Copy">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path fill="#fff" d="M17.5 6h-8a.5.5 0 0 0-.5.5V9H6.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V15h2.5a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5ZM14 17H7v-7h7v7Zm3-3h-2V9.5a.5.5 0 0 0-.5-.5H10V7h7v7Z"/>
-                  </svg>
-                </button>
+              <div class="toggle-row">
+                <label class="toggle" for="split-files">
+                  <input id="split-files" type="checkbox" />
+                  <span class="toggle-ui"></span>
+                </label>
+                <label
+                  id="split-files-label"
+                  class="toggle-label"
+                  for="split-files"
+                  >Separate tokens</label
+                >
               </div>
             </div>
-            <div class="code-container">
-              <div class="code-shell">
-                <pre id="single-lines" class="line-numbers">1</pre>
-                <textarea id="single-code" class="code-area" readonly spellcheck="false"></textarea>
+
+            <div class="section">
+              <h2 id="collections-title">Collections</h2>
+              <div id="groups-list"></div>
+            </div>
+
+            <div class="download-area">
+              <button id="sidebar-download" class="btn" type="button">
+                Download file
+              </button>
+            </div>
+          </aside>
+
+          <main class="main">
+            <div id="single-main" class="single-main">
+              <div class="single-container panel">
+                <div class="panel-header">
+                  <p id="single-panel-title" class="panel-title">tokens</p>
+                  <div class="actions">
+                    <button
+                      id="single-refresh"
+                      class="icon-btn"
+                      type="button"
+                      title="Refresh"
+                      aria-label="Refresh"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="#000"
+                          d="m10.607 7.375-1.02 1.02h2.415v.002a4.427 4.427 0 1 1-4.427 4.427h.75a3.677 3.677 0 1 0 3.677-3.677v-.002H9.587l1.02 1.02-.53.53-1.66-1.66-.266-.265 1.925-1.925.53.53Z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      id="single-download"
+                      class="icon-btn"
+                      type="button"
+                      title="Download"
+                      aria-label="Download"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="#000"
+                          d="M8.318 15.53v1.5h7.364v-1.5h.818v2.25h-9v-2.25h.818Zm4.057-2.14 2.37-2.2.51.55-3 2.785-.255.237-.255-.237-3-2.786.51-.55 2.37 2.201V6h.75v7.39Z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      id="single-copy"
+                      class="icon-btn primary"
+                      type="button"
+                      title="Copy"
+                      aria-label="Copy"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="#fff"
+                          d="M17.5 6h-8a.5.5 0 0 0-.5.5V9H6.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V15h2.5a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5ZM14 17H7v-7h7v7Zm3-3h-2V9.5a.5.5 0 0 0-.5-.5H10V7h7v7Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="code-container">
+                  <div class="code-shell">
+                    <pre id="single-lines" class="line-numbers">1</pre>
+                    <textarea
+                      id="single-code"
+                      class="code-area"
+                      readonly
+                      spellcheck="false"
+                    ></textarea>
+                  </div>
+                  <div class="code-footer">
+                    <div id="single-token-pill" class="pill">0 tokens</div>
+                    <div id="single-line-pill" class="pill">0 lines</div>
+                    <div id="single-size-pill" class="pill">0 B</div>
+                  </div>
+                </div>
               </div>
-              <div class="code-footer">
-                <div id="single-token-pill" class="pill">0 tokens</div>
-                <div id="single-line-pill" class="pill">0 lines</div>
-                <div id="single-size-pill" class="pill">0 B</div>
-              </div>
+            </div>
+
+            <div id="split-main" class="split-main"></div>
+          </main>
+        </div>
+      </div>
+
+      <div id="page-settings" class="page page-settings">
+        <div class="settings-content">
+          <h2 id="settings-group-title">General</h2>
+          <div class="form-inline">
+            <p id="filename-label">File name</p>
+            <div class="suffix-field">
+              <input id="single-filename-base" type="text" value="tokens" />
+              <span>.json</span>
+            </div>
+          </div>
+
+          <div class="form-inline">
+            <div class="form-language">
+              <p id="language-label">Language</p>
+              <p id="filename-help" class="field-help">
+                Used when "Separate tokens" is disabled.
+              </p>
+            </div>
+            <div>
+              <select id="language-select" class="field-select">
+                <option value="en">English</option>
+                <option value="pt">Português</option>
+              </select>
             </div>
           </div>
         </div>
+      </div>
 
-        <div id="split-main" class="split-main"></div>
-      </main>
+      <div class="footer">
+        <div class="footer-links">
+          <a
+            href="https://github.com/mateusvillain/dtcg-tokens"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+          <span>&bull;</span>
+          <a
+            href="https://www.linkedin.com/in/mateusvillain/?locale=en_US"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
+        </div>
+        <span>v1.0.0</span>
+      </div>
     </div>
-
-    <p id="status-note" class="status-note"></p>
 
     <script>
       const includeRootInput = document.getElementById("include-root");
       const splitFilesInput = document.getElementById("split-files");
       const groupsList = document.getElementById("groups-list");
       const sidebarDownload = document.getElementById("sidebar-download");
+      const languageSelect = document.getElementById("language-select");
+      const singleFilenameInput = document.getElementById(
+        "single-filename-base",
+      );
+
+      const tabTokens = document.getElementById("tab-tokens");
+      const tabSettings = document.getElementById("tab-settings");
+      const pageTokens = document.getElementById("page-tokens");
+      const pageSettings = document.getElementById("page-settings");
 
       const singleMain = document.getElementById("single-main");
       const splitMain = document.getElementById("split-main");
@@ -421,15 +667,112 @@
       const singleLinePill = document.getElementById("single-line-pill");
       const singleSizePill = document.getElementById("single-size-pill");
 
+      const I18N = {
+        en: {
+          tokensTab: "Tokens",
+          settingsTab: "Settings",
+          general: "General",
+          includeCollection: "Include collection",
+          separateTokens: "Separate tokens",
+          collections: "Collections",
+          downloadFile: "Download file",
+          downloadFiles: "Download files",
+          settingsGeneral: "General",
+          language: "Language",
+          fileName: "File name",
+          filenameHelp: 'Used when "Separate tokens" is disabled.',
+          refresh: "Refresh",
+          download: "Download",
+          copy: "Copy",
+          tokensUnit: "tokens",
+          linesUnit: "lines",
+          panelTitle: "tokens",
+        },
+        pt: {
+          tokensTab: "Tokens",
+          settingsTab: "Configurações",
+          general: "Geral",
+          includeCollection: "Incluir coleção",
+          separateTokens: "Separar tokens",
+          collections: "Coleções",
+          downloadFile: "Baixar arquivo",
+          downloadFiles: "Baixar arquivos",
+          settingsGeneral: "Geral",
+          language: "Idioma",
+          fileName: "Nome do arquivo",
+          filenameHelp: 'Usado quando "Separar tokens" está desativado.',
+          refresh: "Atualizar",
+          download: "Baixar",
+          copy: "Copiar",
+          tokensUnit: "tokens",
+          linesUnit: "linhas",
+          panelTitle: "tokens",
+        },
+      };
+
+      let currentLanguage = "en";
+      let currentPage = "tokens";
+      let isSyncingSettings = false;
       let lastPayload = null;
 
-      function setStatus(message) {
-        const node = document.getElementById("status-note");
-        node.textContent = message;
+      function t(key) {
+        const pack = I18N[currentLanguage] || I18N.en;
+        return pack[key] || I18N.en[key] || key;
+      }
+
+      function applyTranslations() {
+        tabTokens.textContent = t("tokensTab");
+        tabSettings.textContent = t("settingsTab");
+        document.getElementById("general-title").textContent = t("general");
+        document.getElementById("include-root-label").textContent =
+          t("includeCollection");
+        document.getElementById("split-files-label").textContent =
+          t("separateTokens");
+        document.getElementById("collections-title").textContent =
+          t("collections");
+        document.getElementById("single-panel-title").textContent =
+          t("panelTitle");
+        document.getElementById("settings-group-title").textContent =
+          t("settingsGeneral");
+        document.getElementById("language-label").textContent = t("language");
+        document.getElementById("filename-label").textContent = t("fileName");
+        document.getElementById("filename-help").textContent =
+          t("filenameHelp");
+        document.querySelector(
+          '#language-select option[value="en"]',
+        ).textContent = "English";
+        document.querySelector(
+          '#language-select option[value="pt"]',
+        ).textContent = "Português";
+
+        document.getElementById("single-refresh").title = t("refresh");
+        document
+          .getElementById("single-refresh")
+          .setAttribute("aria-label", t("refresh"));
+        document.getElementById("single-download").title = t("download");
+        document
+          .getElementById("single-download")
+          .setAttribute("aria-label", t("download"));
+        document.getElementById("single-copy").title = t("copy");
+        document
+          .getElementById("single-copy")
+          .setAttribute("aria-label", t("copy"));
+        updateMainMode();
+      }
+
+      function showPage(page) {
+        currentPage = page;
+        const isTokens = page === "tokens";
+        tabTokens.classList.toggle("active", isTokens);
+        tabSettings.classList.toggle("active", !isTokens);
+        pageTokens.classList.toggle("active", isTokens);
+        pageSettings.classList.toggle("active", !isTokens);
       }
 
       function getEnabledGroups() {
-        const items = groupsList.querySelectorAll('input[type="checkbox"][data-group]');
+        const items = groupsList.querySelectorAll(
+          'input[type="checkbox"][data-group]',
+        );
         if (!items.length) return null;
 
         const selected = [];
@@ -452,7 +795,44 @@
           options.enabledGroups = enabledGroups;
         }
 
-        parent.postMessage({ pluginMessage: { type: "refresh-tokens", options } }, "*");
+        parent.postMessage(
+          { pluginMessage: { type: "refresh-tokens", options } },
+          "*",
+        );
+      }
+
+      function sendSettings() {
+        if (isSyncingSettings) return;
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: "update-settings",
+              settings: {
+                language: languageSelect.value,
+                singleFileName: singleFilenameInput.value,
+              },
+            },
+          },
+          "*",
+        );
+      }
+
+      function applySettings(settings) {
+        if (!settings || typeof settings !== "object") return;
+        currentLanguage = settings.language === "pt" ? "pt" : "en";
+        isSyncingSettings = true;
+        languageSelect.value = currentLanguage;
+        if (
+          typeof settings.singleFileName === "string" &&
+          settings.singleFileName.length > 0
+        ) {
+          singleFilenameInput.value = settings.singleFileName.replace(
+            /\.json$/i,
+            "",
+          );
+        }
+        isSyncingSettings = false;
+        applyTranslations();
       }
 
       function updateMainMode() {
@@ -460,11 +840,11 @@
         if (splitMode) {
           singleMain.classList.add("hidden");
           splitMain.classList.add("active");
-          sidebarDownload.textContent = "Download files";
+          sidebarDownload.textContent = t("downloadFiles");
         } else {
           singleMain.classList.remove("hidden");
           splitMain.classList.remove("active");
-          sidebarDownload.textContent = "Download file";
+          sidebarDownload.textContent = t("downloadFile");
         }
       }
 
@@ -538,12 +918,16 @@
       }
 
       function fillPills(tokenNode, lineNode, sizeNode, stats) {
-        tokenNode.textContent = `${stats.tokens} tokens`;
-        lineNode.textContent = `${stats.lines} lines`;
+        tokenNode.textContent = `${stats.tokens} ${t("tokensUnit")}`;
+        lineNode.textContent = `${stats.lines} ${t("linesUnit")}`;
         sizeNode.textContent = `${stats.size}`;
       }
 
-      function triggerDownload(content, filename, mime = "application/json;charset=utf-8") {
+      function triggerDownload(
+        content,
+        filename,
+        mime = "application/json;charset=utf-8",
+      ) {
         const blob = new Blob([content], { type: mime });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -560,7 +944,7 @@
         for (let i = 0; i < 256; i += 1) {
           let c = i;
           for (let j = 0; j < 8; j += 1) {
-            c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+            c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
           }
           table[i] = c >>> 0;
         }
@@ -686,7 +1070,9 @@
           u16le(0),
         ]);
 
-        return new Blob([concatUint8Arrays([localSection, centralDir, eocd])], { type: "application/zip" });
+        return new Blob([concatUint8Arrays([localSection, centralDir, eocd])], {
+          type: "application/zip",
+        });
       }
 
       async function copyText(text) {
@@ -769,18 +1155,24 @@
           const refreshBtn = document.createElement("button");
           refreshBtn.className = "icon-btn";
           refreshBtn.type = "button";
+          refreshBtn.title = t("refresh");
+          refreshBtn.setAttribute("aria-label", t("refresh"));
           refreshBtn.innerHTML = createActionIcon("refresh");
           refreshBtn.onclick = () => requestRefresh();
 
           const downloadBtn = document.createElement("button");
           downloadBtn.className = "icon-btn";
           downloadBtn.type = "button";
+          downloadBtn.title = t("download");
+          downloadBtn.setAttribute("aria-label", t("download"));
           downloadBtn.innerHTML = createActionIcon("download");
           downloadBtn.onclick = () => triggerDownload(file.json, file.filename);
 
           const copyBtn = document.createElement("button");
           copyBtn.className = "icon-btn primary";
           copyBtn.type = "button";
+          copyBtn.title = t("copy");
+          copyBtn.setAttribute("aria-label", t("copy"));
           copyBtn.innerHTML = createActionIcon("copy");
           copyBtn.onclick = () => copyText(file.json);
 
@@ -835,8 +1227,13 @@
         });
       }
 
-      document.getElementById("single-refresh").onclick = () => requestRefresh();
-      document.getElementById("single-copy").onclick = () => copyText(singleCode.value);
+      tabTokens.onclick = () => showPage("tokens");
+      tabSettings.onclick = () => showPage("settings");
+
+      document.getElementById("single-refresh").onclick = () =>
+        requestRefresh();
+      document.getElementById("single-copy").onclick = () =>
+        copyText(singleCode.value);
       document.getElementById("single-download").onclick = () => {
         if (!lastPayload || lastPayload.mode !== "single") return;
         triggerDownload(lastPayload.file.json, lastPayload.file.filename);
@@ -847,6 +1244,15 @@
         updateMainMode();
         requestRefresh();
       };
+
+      languageSelect.onchange = () => {
+        currentLanguage = languageSelect.value === "pt" ? "pt" : "en";
+        applyTranslations();
+        sendSettings();
+      };
+
+      singleFilenameInput.onchange = () => sendSettings();
+      singleFilenameInput.onblur = () => sendSettings();
 
       sidebarDownload.onclick = () => {
         if (!lastPayload) return;
@@ -863,13 +1269,16 @@
         if (!message || typeof message !== "object") return;
 
         if (message.type === "tokens-error") {
-          setStatus("Erro ao gerar tokens");
           return;
         }
 
         if (message.type === "tokens-generated") {
           lastPayload = message.payload;
-          updateGroupsPanel(lastPayload.availableGroups || [], lastPayload.selectedGroups || []);
+          applySettings(lastPayload.settings);
+          updateGroupsPanel(
+            lastPayload.availableGroups || [],
+            lastPayload.selectedGroups || [],
+          );
 
           if (lastPayload.mode === "single") {
             singleCode.value = lastPayload.file.json || "";
@@ -886,6 +1295,8 @@
       };
 
       syncLineNumbersScroll(singleCode, singleLines);
+      applyTranslations();
+      showPage(currentPage);
       updateMainMode();
       requestRefresh();
     </script>
