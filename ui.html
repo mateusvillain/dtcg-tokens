@@ -283,11 +283,6 @@
         white-space: nowrap;
       }
 
-      .single-container .panel {
-        height: 100%;
-        border-bottom: 0;
-      }
-
       .split-main {
         display: none;
         height: 100%;
@@ -451,9 +446,6 @@
         text-decoration: underline;
       }
 
-      .status-note {
-        display: none;
-      }
     </style>
   </head>
   <body>
@@ -471,7 +463,7 @@
         <div class="tokens-layout">
           <aside class="sidebar">
             <div class="section">
-              <h2 id="general-title" class="section-title">General</h2>
+              <h2 id="general-title">General</h2>
 
               <div class="toggle-row">
                 <label class="toggle" for="include-root">
@@ -501,7 +493,7 @@
             </div>
 
             <div class="section">
-              <h2 id="collections-title" class="section-title">Collections</h2>
+              <h2 id="collections-title">Collections</h2>
               <div id="groups-list"></div>
             </div>
 
@@ -608,7 +600,7 @@
         <div class="settings-content">
           <h2 id="settings-group-title">General</h2>
           <div class="form-inline">
-            <p id="filename-label" class="field-label">File name</p>
+            <p id="filename-label">File name</p>
             <div class="suffix-field">
               <input id="single-filename-base" type="text" value="tokens" />
               <span>.json</span>
@@ -617,7 +609,7 @@
 
           <div class="form-inline">
             <div class="form-language">
-              <p id="language-label" class="field-label">Language</p>
+              <p id="language-label">Language</p>
               <p id="filename-help" class="field-help">
                 Used when "Separate tokens" is disabled.
               </p>
@@ -651,8 +643,6 @@
         <span>v1.0.0</span>
       </div>
     </div>
-
-    <p id="status-note" class="status-note"></p>
 
     <script>
       const includeRootInput = document.getElementById("include-root");
@@ -694,7 +684,6 @@
           refresh: "Refresh",
           download: "Download",
           copy: "Copy",
-          errorGenerating: "Error generating tokens",
           tokensUnit: "tokens",
           linesUnit: "lines",
           panelTitle: "tokens",
@@ -715,7 +704,6 @@
           refresh: "Atualizar",
           download: "Baixar",
           copy: "Copiar",
-          errorGenerating: "Erro ao gerar tokens",
           tokensUnit: "tokens",
           linesUnit: "linhas",
           panelTitle: "tokens",
@@ -730,11 +718,6 @@
       function t(key) {
         const pack = I18N[currentLanguage] || I18N.en;
         return pack[key] || I18N.en[key] || key;
-      }
-
-      function setStatus(message) {
-        const node = document.getElementById("status-note");
-        node.textContent = message;
       }
 
       function applyTranslations() {
@@ -1286,7 +1269,6 @@
         if (!message || typeof message !== "object") return;
 
         if (message.type === "tokens-error") {
-          setStatus(t("errorGenerating"));
           return;
         }
 
