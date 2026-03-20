@@ -1,7 +1,7 @@
 {
-  "name": "dtcg-tokens",
+  "name": "design-token-exporter",
   "version": "0.2.0",
-  "description": "Your Figma Plugin",
+  "description": "Transform your Figma variables and styles into multi-theme and multi-brand design tokens in compliance with the Design Tokens Community Group (DTCG) standards.",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -9,8 +9,35 @@
     "lint:fix": "eslint --ext .ts,.tsx --ignore-pattern node_modules --fix .",
     "watch": "npm run build -- --watch"
   },
-  "author": "",
-  "license": "",
+  "author": {
+    "name": "Mateus Villain",
+    "email": "contato@mateusvillain.com",
+    "url": "https://mateusvillain.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mateusvillain/design-token-exporter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mateusvillain/design-token-exporter/issues"
+  },
+  "keywords": [
+    "figma",
+    "design-tokens",
+    "dtcg",
+    "variables",
+    "tokens",
+    "design-system",
+    "ui-kit",
+    "css",
+    "sass",
+    "less",
+    "stylus",
+    "json",
+    "export",
+    "plugin"
+  ],
   "devDependencies": {
     "@figma/eslint-plugin-figma-plugins": "*",
     "@figma/plugin-typings": "*",
